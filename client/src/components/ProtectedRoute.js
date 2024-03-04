@@ -3,17 +3,19 @@ import { message } from "antd";
 import { useEffect} from "react";
 import { GetUserInfo } from "../apicalls/users";
 import { useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import { setUser } from "../redux/usersSlice";
 
 function ProtectedRoute(props){
-
-    const [userDate , setUserData] = React.useState(null);
+    const {user} = useSelector(state=>state.users)
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const getData = async () => {
         try {
             const response = await GetUserInfo();
             console.log(response);
             if(response.success){
-                setUserData(response.data);
+                dispatch(setUser(response.data))
             }else{
                 message.error(response.data);
                 navigate("/login");
@@ -27,7 +29,7 @@ function ProtectedRoute(props){
     useEffect(() => {
         // if you have  present token the localstorage to getData 
         if(localStorage.getItem("token")){
-            if(!userDate){
+            if(!user){
                 getData();
             }
         }else{
@@ -37,7 +39,7 @@ function ProtectedRoute(props){
     },[]);
 
     return (
-        <div>{props.children}</div>
+        user && <div>{props.children}</div>
     )
 }
 
