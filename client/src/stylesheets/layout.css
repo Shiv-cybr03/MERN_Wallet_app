@@ -30,9 +30,20 @@
     padding: 10px;
     cursor: pointer;
 }
+
+.menu-item h1{
+    color: white !important;
+}
+
 .active-menu-item{
     border: 2px solid white;
     border-radius: 3px;
+    color: var(--secondary) !important;
+    padding: 5px 10px;
+}
+
+.active-menu-item h1{
+    color: var(--secondary) !important;
 }
 
 .body{
