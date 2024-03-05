@@ -1,9 +1,47 @@
 import React from "react";
+import PageTitle from "../../components/PageTitle";
+import { Table } from "antd";
 
 function Transactions(){
+    const columns = [
+        {
+            title : "Date",
+            dataIndex : "date",
+        },
+        {
+            title: "Transaction ID",
+            dataIndex: "transactionId"
+        },
+        {
+            title : "Amount",
+            dataIndex: "amount",
+        },
+        {
+            title: "Type",
+            dataIndex: "type",
+        },
+        {
+            title: "Reference",
+            dataIndex: "reference",
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+        }
+    ]
+
     return(
         <div>
-            Transactions
+            <div className="flex justify-between">
+                <PageTitle title="Transactions"/>
+
+                <div className="flex gap-1 items-center">
+                <button className="primary-outlined-btn">Deposit</button>
+                <button className="primary-contained-btn bg-color">Tranfer</button>
+                </div>
+            </div>
+
+            <Table columns={columns} dataSource={[]} className="mt-2"/>
         </div>
     )
 }

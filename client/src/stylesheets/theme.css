@@ -22,8 +22,10 @@
 }
 
 .text-white {
-    color: #fff !important;
+    color: #470f0f !important;
 }
 
 
-
+.bg-color{
+    background-color: rgb(199, 226, 217);
+}

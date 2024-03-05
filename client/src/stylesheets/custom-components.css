@@ -2,3 +2,25 @@
     background-color: white;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
 }
+
+.loader{
+    height: 80px;
+    width: 80px;
+    border: 5px solid rgb(236, 236, 236);
+    border-radius: 50%;
+    border-top: rgb(175, 173, 173);
+    animation: loader-anim 1s linear infinite;
+}
+
+table{
+    border: 1px solid rgb(233, 224, 224);
+}
+
+/* @keyframes .loader-anim {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} */

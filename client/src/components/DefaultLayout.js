@@ -91,7 +91,7 @@ function DefaultLayout({ children }){
             <div className="sidebar">
                 <div className="menu">
                     {menuToRender.map((item) =>{
-                        const isActive = window.location.pathname === item.path;
+                        const isActive = window.location.pathname === item.path;    
                         return (
                             <div className={`menu-item ${isActive ? "active-menu-item" : ""}`} 
                             onClick={item.onClick}>
@@ -117,11 +117,11 @@ function DefaultLayout({ children }){
                     </div>
                     <div>
                         <h1 className="text-sm underline text-secondary">
-                            {user?.firstName}-{user?.lastName    }
+                            {user?.firstName}-{user?.lastName}
                         </h1>
                     </div>
                 </div>
-                <div className="content"></div>
+                <div className="content">{children}</div>
             </div>
         </div>
     );

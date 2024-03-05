@@ -36,10 +36,8 @@
 }
 
 .active-menu-item{
-    border: 2px solid white;
     border-radius: 3px;
     color: var(--secondary) !important;
-    padding: 5px 10px;
 }
 
 .active-menu-item h1{
@@ -58,5 +56,5 @@
 }
 
 .content{
-    padding: 15px;
+    padding-top: 15px;
 }
