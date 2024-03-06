@@ -29,3 +29,17 @@
 .bg-color{
     background-color: rgb(199, 226, 217);
 }
+
+.success-bg{
+    background-color: #3ff85d !important;
+    color: white !important;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.error-bg{
+    background-color: rgb(243, 0, 0) !important;
+    color: rgb(209, 154, 51) !important;
+    padding: 10px;
+    border-radius: 3px;
+}

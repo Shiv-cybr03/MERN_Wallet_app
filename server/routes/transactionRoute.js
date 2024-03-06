@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Transaction = require("../models/transactionModel");
 const authMiddleware = require("../middleware/authMiddleware");
+const User = require("../models/userModel");
 
 
 // Transfer money from one account to another account 
@@ -36,6 +37,29 @@ router.post("/transfer-fund", authMiddleware, async(req,res) => {
 
 // To verify the receiver account Number.
 
-
+router.post("/verify-account", authMiddleware, async(req,res) => {
+    try {
+        const user = await User.findOne({_id: req.body.receiver});
+        if(user){
+            res.send({
+                message: "Account Verified.",
+                data: user,
+                success: true
+            });
+        }else{
+            res.send({
+                message: "Account not found!",
+                data: null,
+                success: false,
+            });
+        }
+    } catch (error) {
+        res.send({
+            message: "Account not found!",
+            data: null,
+            success: false,
+        });
+    }
+})
 
 module.exports = router;
