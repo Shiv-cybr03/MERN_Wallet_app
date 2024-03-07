@@ -30,5 +30,3 @@ export const RegisterUser = async(payload) =>{
         return error.response.data;
     }
  };
-
-

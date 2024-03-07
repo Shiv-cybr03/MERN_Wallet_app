@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     balance: {
-        type: String,
+        type: Number,
         default: 0
     },
     isVerified: {
@@ -48,10 +48,6 @@ const userSchema = new mongoose.Schema({
         default: false,
     }
 },{timestamps: true});
-
-
-
-
 
 
 
