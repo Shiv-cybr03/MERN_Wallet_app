@@ -1,9 +1,9 @@
 import React from 'react';
 
-function PageTitle(){
+function PageTitle({title}){
     return (
         <div>
-            <h1 className='text-xl uppercase'>Transactions</h1>
+            <h1 className='text-xl '>{title}</h1>
         </div>
     )
 }

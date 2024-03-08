@@ -7,9 +7,11 @@ import TranserFundsModal from "./TranserFundsModal";  // Update the path accordi
 import { GetTransactionsOfUser } from "../../apicalls/transactions";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import DepositModal from "./DepositModal";
 
 function Transactions() {
     const [showTransferFundsModal, setShowTransferFundsModal] = React.useState(false);
+    const [showDepositModal, setShowDepositModal] = React.useState(false);
     const [data = [], setData] = React.useState([]);
     const {user} = useSelector(state => state.users) || {};
     const columns = [
@@ -39,9 +41,6 @@ function Transactions() {
             title: "Reference Account",
             dataIndex: "",
             render: (text, record) => {
-                console.log("Record: ", record);
-                console.log("User: ", user);
-        
                 return record.sender === user._id ? (
                     <div>
                         <h1 className="text-sm">
@@ -102,7 +101,9 @@ function Transactions() {
             <div className="flex justify-between">
                 <PageTitle title="Transactions" />
                 <div className="flex gap-1 items-center">
-                    <button className="primary-outlined-btn">Deposit</button>
+                    <button className="primary-outlined-btn"
+                     onClick={() => setShowDepositModal(true)}
+                    >Deposit</button>
                     <button
                         className="primary-contained-btn bg-color"
                         onClick={() => setShowTransferFundsModal(true)}
@@ -118,7 +119,14 @@ function Transactions() {
                 <TranserFundsModal
                     showTransferFundsModal={showTransferFundsModal}
                     setShowTransferFundsModal={setShowTransferFundsModal}
+                    reloadData={getData}
                 />
+            )}
+            {showDepositModal && (
+              <DepositModal
+                showDepositModal={showDepositModal}
+                setShowDepositModal={setShowDepositModal}
+                reloadData={getData}/>
             )}
         </div>
     );
