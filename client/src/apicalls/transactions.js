@@ -39,6 +39,7 @@ export const GetTransactionsOfUser = async () => {
 export const DepositFunds = async (payload) => {
     try {
         const { data } = await axiosInstance.post("/api/transactions/deposit-funds", payload);
+        console.log("transaction data: ", data);
         return data;
 
     } catch (error) {

@@ -22,12 +22,10 @@ function DepositModal({showDepositModal,setShowDepositModal,reloadData}){
             }
         } catch (error) {
             // dispatch(HideLoading());
-            message.error(error.message);
+            console.error("Error depositing funds:", error);
+            message.error("An error occurred while depositing funds. Please try again.");;
         }
     }
-    console.log("Form Data from getfieldsvalue :", form.getFieldsValue());
-
-    console.log("Form data from Form : ", Form);
     return (
         <Modal
         title="Deposit" open={showDepositModal}
@@ -54,7 +52,7 @@ function DepositModal({showDepositModal,setShowDepositModal,reloadData}){
                         currency='INR'
                         amount={form.getFieldValue('amount') * 100}
                         shippingAddress
-                        stripeKey="pk_test_51Os2a1SCyEj5plrEhy8nlfMvcyuN2wmqOsbIC5P05OyPo4RDDDxAuAeHXHfhUPgI2E9iAiMbdpDKMCfyHo39VOCp001Dwzy6WV" url="http://localhost:3000/transactions">
+                        stripeKey="pk_test_51Os2a1SCyEj5plrEhy8nlfMvcyuN2wmqOsbIC5P05OyPo4RDDDxAuAeHXHfhUPgI2E9iAiMbdpDKMCfyHo39VOCp001Dwzy6WV">
                         <button className='primary-contained-btn'>Deposit</button>
                     </StripeCheckout>
                 </div>

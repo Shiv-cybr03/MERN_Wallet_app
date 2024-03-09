@@ -2,9 +2,9 @@ const router = require("express").Router();
 const Transaction = require("../models/transactionModel");
 const authMiddleware = require("../middleware/authMiddleware");
 const User = require("../models/userModel");
-const stripe = require("stripe")(process.env.STRIPE_KEY);
+const stripe = require("stripe")('sk_test_51Os2a1SCyEj5plrEgJ0kAByEmdWFH1WSpH8kXpns1jaswkyYc0Hj0VhlH261We8AelSv0I23utJjiH8ZdHyw4Hio00NovkdjGT');
 
-const { uuid } = require('uuidv4');
+const { v4: uuidv4 } = require('uuid');
 
 // Transfer money from one account to another account
 router.post("/transfer-funds", authMiddleware, async (req, res) => {
@@ -99,16 +99,26 @@ router.post("/deposit-funds", authMiddleware, async(req, res) => {
       source: token.id,
     });
 
+     // Handle errors if customer creation fails
+     if (!customer) {
+      console.error("Failed to create customer");
+    }
+
     // create a charge 
     charge  = await stripe.charges.create({
       amount: amount,
       currency: "INR",
+      source: token.id,
       receipt_email: token.email,
       description: "Deposited to wallet"
     },
     {
-      idempotencyKey: uuid(),
+      idempotencyKey: uuidv4(), 
+
     });
+
+    console.log("Charge Details:", charge);
+
 
     //save the transaction
     if(charge.status === "succeeded"){
@@ -126,10 +136,19 @@ router.post("/deposit-funds", authMiddleware, async(req, res) => {
       await User.findByIdAndUpdate(req.body.userId,{
         $inc: { balance: amount },
       });
-      res.send({
+      res.json({
         message: "Transaction successful",
-        data: newTransaction,
+        /*data: newTransaction,*/
+        data: charge,
         success: true
+      });
+      //handle charge faild extra fields set your self.
+    }if (charge.status !== "succeeded") {
+      console.error("Charge failed:", charge.failure_message);
+      return res.status(500).send({
+        message: "Transaction failed",
+        data: charge,
+        success: false,
       });
     }else{
       console.error("Charge failed:", charge.failure_message);
@@ -139,11 +158,16 @@ router.post("/deposit-funds", authMiddleware, async(req, res) => {
         success: false
       })
     }
+
+    console.log("Token:", token.id);
+    console.log("Idempotency Key:", req.headers['idempotency-key']);
+
   } catch (error) {
     console.error("Transaction failed:", error);
-    res.status(500).send({
+    res.status(500).json({
       message: "Transaction failed",
       data: charge,
+      error: error.message,
       success: false
     })
   }

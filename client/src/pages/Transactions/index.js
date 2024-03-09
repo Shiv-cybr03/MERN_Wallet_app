@@ -34,7 +34,13 @@ function Transactions() {
             title: "Type",
             dataIndex: "type",
             render: (text,record) => {
-                return record.sender._id === user._id ? "Debit" : "Credit"
+                if(record.sender._id === record.receiver._id){
+                    return "Deposit"
+                }else if(record.sender._id === user._id){
+                    return "Debit";
+                }else{
+                    return "Credit";
+                }
             }
         },
         {
