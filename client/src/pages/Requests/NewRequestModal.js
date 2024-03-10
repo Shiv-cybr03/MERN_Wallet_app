@@ -37,7 +37,7 @@ function NewRequestModal({
             setIsVerified('false');
         }
     }
-
+    //Amount validata 
     const validateAmount = (_, value) => {
         const enteredAmount = parseFloat(value);
     
@@ -49,17 +49,17 @@ function NewRequestModal({
 
     const onFinish = async (values) => {
         try {
-            console.log("Form submitted with values:", values);
             //dispatch(ShowLoading());
             const payload = {
                 ...values,  
-                sender: user._id,
+                sender: user,
+                receiver: user,
                 status: "success",
                 description: values.description || "no description",
             }
-
+            console.log("Payload details : ",payload);
             const response = await SendRequests(payload);
-
+            console.log("After send the payload response : ",response);
             if(response.success){
                 //reloadData();
                 setShowNewRequestModal(false);

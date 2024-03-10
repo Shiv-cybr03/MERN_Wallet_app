@@ -60,7 +60,7 @@ function Requests(){
             const receiverData = response.data.filter((item)=>item.receiver._id===user._id)
 
             setData({
-                sent: sendData,
+                sent: sendData, 
                 received: receiverData
             })
            }

@@ -65,6 +65,7 @@ router.post("/verify-account", authMiddleware, async (req, res) => {
 // get all trasaction for a user.
 router.post("/get-all-transactions-by-user", authMiddleware, async (req, res) =>{
   try {
+    console.log("/get-all-transactions-by-user : ", req.body);
     const transactions = await Transaction.find({
       $or: [
         {

@@ -6,7 +6,6 @@ const authMiddleWare = require("../middleware/authMiddleware");
 
 router.post("/get-all-requests-by-user", authMiddleWare, async(req, res)=>{
     try {
-        console.log(" before all requested details : ",req.body);
         const requests = await Requests.find({
             $or:[{
                 sender: req.body.userId
@@ -14,8 +13,6 @@ router.post("/get-all-requests-by-user", authMiddleWare, async(req, res)=>{
                 receiver: req.body.userId
             }]
         }).populate("sender", "name email").populate("receiver", "name email");
-
-        console.log("afer all requested details  : ",requests);
 
         res.send({
             data: requests,
@@ -32,7 +29,6 @@ router.post("/get-all-requests-by-user", authMiddleWare, async(req, res)=>{
 
 router.post("/send-requests",authMiddleWare, async(req,res) => {
     try {
-        console.log("/send-requests : ", req.body);
         const { receiver,email,amount, description } = req.body;
 
         if (!amount) {
