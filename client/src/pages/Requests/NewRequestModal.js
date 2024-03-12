@@ -17,8 +17,6 @@ function NewRequestModal({
     const [form] = Form.useForm();
     //const dispatch = useDispatch();
 
-    
-
     //Account verifiy logic 
     const verifyAccount = async () => {
         try {
@@ -52,11 +50,10 @@ function NewRequestModal({
             //dispatch(ShowLoading());
             const payload = {
                 ...values,  
-                sender: user,
-                receiver: user,
+                sender: user._id,
                 status: "success",
                 description: values.description || "no description",
-            }
+            };
             console.log("Payload details : ",payload);
             const response = await SendRequests(payload);
             console.log("After send the payload response : ",response);

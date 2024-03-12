@@ -14,12 +14,21 @@ export const GetAllRequestsByUser = async () => {
 // send a requests to another user
 export const SendRequests = async (request) => {
     try {
-        console.log("Requested is : ",request);
         const { data } = await axiosInstance.post("/api/requests/send-requests", request);
-        console.log("/api/requests/send-requests  data is : ",data);
         return data;
     } catch (error) {
         console.error("Error in /api/requests/send-requests request", error);
+        return error.response.data;
+    }
+};
+
+
+//Update a request status
+export const UpdateRequestStatus = async (request) => {
+    try {
+        const {data} = await axiosInstance.post("/api/requests/update-request-status", request);
+        return data;
+    } catch (error) {
         return error.response.data;
     }
 }

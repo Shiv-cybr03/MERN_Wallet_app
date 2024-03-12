@@ -9,8 +9,11 @@ const usersSlice = createSlice({
     setUser(state, action){
       state.user = action.payload;
     },
+    ReloadUser(state, action){
+      state.reloadUser = action.payload;
+    }
   },
 });
 
-export const { setUser } = usersSlice.actions;
+export const { setUser, ReloadUser } = usersSlice.actions;
 export default usersSlice.reducer;

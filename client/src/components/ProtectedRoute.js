@@ -4,15 +4,19 @@ import { useEffect} from "react";
 import { GetUserInfo } from "../apicalls/users";
 import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import { setUser } from "../redux/usersSlice";
+import { setUser, ReloadUser } from "../redux/usersSlice";
 import DefaultLayout from "./DefaultLayout";
 
 function ProtectedRoute(props){
-    const {user} = useSelector(state=>state.users)
+    const {user, reloadUser} = useSelector(state=>state.users)
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+
+
     const getData = async () => {
         try {
+            //dispatch(ShowLoading());
             const response = await GetUserInfo();
             console.log(response);
             if(response.success){
@@ -21,7 +25,9 @@ function ProtectedRoute(props){
                 message.error(response.data);
                 navigate("/login");
             }
+            //dispatch(ReloadUser(false))
         } catch (error) {
+            //dispatch(HideLoading());
             navigate("/login");
             message.error(error.message)
         }
@@ -38,6 +44,13 @@ function ProtectedRoute(props){
             navigate("/login");
         }
     },[]);
+
+    useEffect(() => {
+        if(reloadUser){
+            getData();
+        }
+    },[reloadUser]);
+
 
     return (
         user && <div>

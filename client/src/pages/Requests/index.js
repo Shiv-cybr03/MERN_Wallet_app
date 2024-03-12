@@ -4,7 +4,8 @@ import moment from 'moment';
 import PageTitle from '../../components/PageTitle';
 import NewRequestModal from './NewRequestModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetAllRequestsByUser } from '../../apicalls/requests';
+import { GetAllRequestsByUser ,UpdateRequestStatus } from '../../apicalls/requests';
+import { ReloadUser } from '../../redux/usersSlice';
 const {TabPane} = Tabs;
 
 
@@ -12,18 +13,60 @@ function Requests(){
     const [data, setData] = React.useState([]);
     const [showNewRequestModal, setShowNewRquestModal] = React.useState(false);
     const dispatch = useDispatch();
-    const { user } = useSelector(state => state.users)
+    const { user } = useSelector(state => state.users);
+
+    const getData = async() => {
+        try {
+           //dispatch(ShowLoading());
+           const response = await GetAllRequestsByUser();
+           if(response.success){
+            const sendData = response.data.filter((item)=>item.sender._id === user._id);
+            const receiverData = response.data.filter((item)=>item.receiver._id === user._id);
+
+            setData({
+                sent: sendData, 
+                received: receiverData
+            })
+           }
+           //dispatch(HideLoading());
+        } catch (error) {
+            //dispatch(HideLoading());
+            message.error(error.message);
+        }
+    };
+
+    // update the status 
+    const updateStatus = async (record, status) => {
+        try {
+            //dispatch(ShowLoading())
+            const response = await UpdateRequestStatus({
+                ...record,
+                status,
+            });
+            //dispatch((HideLoading());
+            if(response.successs){
+                message.success(response.message);
+                getData();
+                dispatch(ReloadUser(true));
+            }else{
+                message.error(response.message)
+            }
+        } catch (error) {
+            //dispatch(HideLoading());
+            message.error(error.message)
+        }
+    }
 
     const  columns = [
         {
             title: "Requests ID",
-            dataIndex: "id"
+            dataIndex: "_id"
         },
         {
             title: "Sender",
             dataIndex: "sender",
             render (sender){
-                return sender.email + " " + sender.lastName;
+                return sender.firstName + " " + sender.lastName;
             },
         },
         {
@@ -48,28 +91,23 @@ function Requests(){
             title: "Status",
             dataIndex: "status"
         },
+        {
+            title: "Action",
+            dataIndex: "action",
+            render : (text, record) => {
+                if(record.status === 'pending' && record.receiver._id === user._id)
+                return <div className='flex gap-1'>
+                    <h1 className='text-sm underline'
+                    onClick={() => updateStatus(record, "rejected")}
+                    >Reject</h1>
+                    <h1 className='text-sm underline'
+                    onClick={() => updateStatus(record, "accepted")}
+                    >Accept</h1>
+                    </div>
+            }
+        }
     ];
 
-    const getData = async() => {
-        try {
-           //dispatch(ShowLoading());
-           const response = await GetAllRequestsByUser();
-           console.log("response : ",response);
-           if(response.success){
-            const sendData = response.data.filter((item)=>item.sender._id===user._id);
-            const receiverData = response.data.filter((item)=>item.receiver._id===user._id)
-
-            setData({
-                sent: sendData, 
-                received: receiverData
-            })
-           }
-           //dispatch(HideLoading());
-        } catch (error) {
-            //dispatch(HideLoading());
-            message.error(error.message);
-        }
-    };
 
     useEffect(()=>{
         getData();

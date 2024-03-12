@@ -1,8 +1,9 @@
 import React from 'react';
 import { Modal , Form, message} from 'antd';
 import { useSelector } from 'react-redux';
-// import { useDispatch } from "react-redux"
-import { VerifyAccount, TransferFunds } from "../../apicalls/transactions"
+import { useDispatch } from "react-redux"
+import { VerifyAccount, TransferFunds } from "../../apicalls/transactions";
+import { ReloadUser } from '../../redux/usersSlice';
 
 function TranserFundsModal({
     showTransferFundsModal,  // Corrected prop name
@@ -13,7 +14,7 @@ function TranserFundsModal({
     const {user} = useSelector(state => state.users)
     const [isVerified, setIsVerified] = React.useState('');
     const [form] = Form.useForm();
-    //const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     //Account verifiy logic 
     const verifyAccount = async () => {
@@ -58,6 +59,7 @@ function TranserFundsModal({
                 reloadData();
                 setShowTransferFundsModal(false);
                 message.success(response.message);
+                dispatch(ReloadUser(true));
             }else{
                 message.error(response.message);
             }
