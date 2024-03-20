@@ -25,7 +25,7 @@ function ProtectedRoute(props){
                 message.error(response.data);
                 navigate("/login");
             }
-            //dispatch(ReloadUser(false))
+            dispatch(ReloadUser(false))
         } catch (error) {
             //dispatch(HideLoading());
             navigate("/login");

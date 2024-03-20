@@ -74,35 +74,35 @@ router.post("/update-request-status", authMiddleware, async(req, res) => {
                 sender: req.body.receiver._id,
                 receiver: req.body.sender._id,
                 amount: req.body.amount,
-                reference: req.body.reference,
+                description: req.body.description,
                 status: "success"
             });
             await transaction.save();
 
             //deduct the amount from the sender
             await User.findByIdAndUpdate(req.body.sender._id, {
-                $inc: {balance: -req.body.amount},
+                $inc: {balance: req.body.amount},
             })
             //add the amount to the receiver
             await User.findByIdAndUpdate(req.body.receiver._id, {
-                $inc: {balance: req.body.amount},
-            })
+                $inc: {balance: -req.body.amount},
+            });
         }
          // Update the request status
          await Requests.findByIdAndUpdate(req.body._id, {
             status: req.body.status,
         });
 
-        res.send({
+        res.status(200).send({
             data: null,
             message: "Request status update successfully",
-            success: true
-        })
+            success: true,
+        });
 
     } catch (error) {
         res.status(500).send({
-            message: "Failed to update request status",
-            error: error.message,
+            data: error,
+            message: error.message,
             success: false,
         })
     }

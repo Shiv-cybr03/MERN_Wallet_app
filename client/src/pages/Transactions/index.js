@@ -14,6 +14,7 @@ function Transactions() {
     const [showDepositModal, setShowDepositModal] = React.useState(false);
     const [data = [], setData] = React.useState([]);
     const {user} = useSelector(state => state.users) || {};
+    
     const columns = [
         {
             title: "Date",
@@ -64,11 +65,11 @@ function Transactions() {
         },
         
         {
-            title: "Reference",
-            dataIndex: "reference",
+            title: "Description",
+            dataIndex: "description",
             render: (text, record) => {
                 // Check if sender property is present and has a description
-                const senderDescription = record?.reference || "N/A";
+                const senderDescription = record?.description || "N/A";
         
                 return (
                     <div>

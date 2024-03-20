@@ -54,7 +54,6 @@ function NewRequestModal({
                 status: "success",
                 description: values.description || "no description",
             };
-            console.log("Payload details : ",payload);
             const response = await SendRequests(payload);
             console.log("After send the payload response : ",response);
             if(response.success){

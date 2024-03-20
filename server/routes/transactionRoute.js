@@ -65,7 +65,6 @@ router.post("/verify-account", authMiddleware, async (req, res) => {
 // get all trasaction for a user.
 router.post("/get-all-transactions-by-user", authMiddleware, async (req, res) =>{
   try {
-    console.log("/get-all-transactions-by-user : ", req.body);
     const transactions = await Transaction.find({
       $or: [
         {
@@ -118,8 +117,6 @@ router.post("/deposit-funds", authMiddleware, async(req, res) => {
 
     });
 
-    console.log("Charge Details:", charge);
-
 
     //save the transaction
     if(charge.status === "succeeded"){
@@ -160,8 +157,6 @@ router.post("/deposit-funds", authMiddleware, async(req, res) => {
       })
     }
 
-    console.log("Token:", token.id);
-    console.log("Idempotency Key:", req.headers['idempotency-key']);
 
   } catch (error) {
     console.error("Transaction failed:", error);

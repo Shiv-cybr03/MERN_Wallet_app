@@ -38,18 +38,23 @@ function Requests(){
     // update the status 
     const updateStatus = async (record, status) => {
         try {
-            //dispatch(ShowLoading())
-            const response = await UpdateRequestStatus({
-                ...record,
-                status,
-            });
-            //dispatch((HideLoading());
-            if(response.successs){
-                message.success(response.message);
-                getData();
-                dispatch(ReloadUser(true));
+            if(status === 'accepted' && record.amount > user.balance){
+                message.error("Insuficient balance");
+                return;
             }else{
-                message.error(response.message)
+                //dispatch(Showloading());
+                const response = await UpdateRequestStatus({
+                    ...record,
+                    status,
+                });
+                //dispatch(Hideloading());
+                if(response.success){
+                    message.success(response.message);
+                    getData();
+                    dispatch(ReloadUser(true));
+                }else{
+                    message.error(response.message)
+                }
             }
         } catch (error) {
             //dispatch(HideLoading());
@@ -59,7 +64,7 @@ function Requests(){
 
     const  columns = [
         {
-            title: "Requests ID",
+            title: "Requests Account",
             dataIndex: "_id"
         },
         {
