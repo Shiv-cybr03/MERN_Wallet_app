@@ -30,24 +30,30 @@ The Wallet App is a web application that allows users to manage their finances, 
    git clone https://github.com/Shiv-cybr03/MERN_Wallet_app.git
 
 2. Navigate to the project directory:
+    ```bash
     cd MERN_Wallet_app
 
 3. Install dependencies for frontend and backend:
+    ```bash
     cd client && npm install
     cd .. && npm install
 
 4. Set up environment variables:
+    ```bash
     Create a .env file in the backend directory.
     Add environment variables for MongoDB connection, JWT secret, Stripe API keys and port number etc.
 
 ## Usage
 1. Start the backend server:
+    ```bash
     node server/server
 
 2. Start the frontend development server:
+    ```bash
     cd client && npm start
 
 3. Access the application on your browser:
+    ```bash
     http://localhost:3000.
 
 ## Contributing
