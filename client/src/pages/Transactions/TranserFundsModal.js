@@ -52,7 +52,7 @@ function TranserFundsModal({
                 ...values,  
                 sender: user._id,
                 status: "success",
-                reference: values.reference || "no reference",
+                description: values.description || "no description",
             }
             const response = await TransferFunds(payload);
             if(response.success){

@@ -12,7 +12,8 @@ import Home from './pages/Home';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import Transactions from './pages/Transactions';
-import Requests from './pages/Requests'
+import Requests from './pages/Requests';
+import Users from './pages/Users'
 
 
 
@@ -26,6 +27,7 @@ function App() {
         <Route path='/' element={<ProtectedRoute><Home/></ProtectedRoute>}/>
         <Route path="/transactions" element={<ProtectedRoute><Transactions/></ProtectedRoute>}/>
         <Route path="/requests" element={<ProtectedRoute><Requests/></ProtectedRoute>}/>
+        <Route path='/Users' element={<ProtectedRoute><Users/></ProtectedRoute>}></Route>
       </Routes>
       </BrowserRouter>
       

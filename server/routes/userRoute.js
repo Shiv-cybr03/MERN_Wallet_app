@@ -60,6 +60,14 @@ router.post("/login", async(req,res)=>{
                 message: "Invalid password",
             });
         }
+        //check  if user is verfied 
+        if(user.isVerified === "false"){
+            return res.send({
+                success: false,
+                message: "User is not verified yet or has been suspended",
+            });
+        }
+
         //Generate the Token
         const token = jwt.sign({ userId : user._id}, process.env.JWT_SECRET,{ expiresIn: "1d"});
         
@@ -97,5 +105,42 @@ router.post("/get-user-info", authMiddleware, async(req,res) => {
     }
 });
 
+// Get all Users
+router.get("/get-all-users", authMiddleware, async (req, res) => {
+    try {
+        const users = await User.find(); // Assuming User is your Mongoose model for users
+        res.status(200).json({
+            message: "Users fetched successfully",
+            data: users,
+            success: true,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            success: false,
+        });
+    }
+});
+
+//Update user verified status
+
+router.post("/update-user-verified-status",authMiddleware, async (req,res) =>{
+    try {
+        await User.findByIdAndUpdate(req.body.selectedUser, {
+            isVerified: req.body.isVerified,
+        });
+        res.status(200).send({
+            data: null,
+            message: "User verified status update successfully",
+            success: true,
+        })
+    } catch (error) {
+        res.status(500).send({
+            data: error,
+            message: error.message,
+            success: false
+        })
+    }
+})
 
 module.exports = router;

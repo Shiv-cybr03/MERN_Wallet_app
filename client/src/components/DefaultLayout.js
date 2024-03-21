@@ -84,7 +84,9 @@ function DefaultLayout({ children }){
         }
     ]
 
-    const menuToRender = user?.isAdmin ? userMenu : adminMenu;
+    // const menuToRender = user?.isAdmin ? userMenu : adminMenu;
+    const menuToRender = user?.isAdmin === "true" ? adminMenu : userMenu;
+
 
     return(
         <div className="layout">
